@@ -1,11 +1,15 @@
-# glass-rpn-calculator
-
 Introduction
 ============
 This calculator is based on:
 1. Hewlet-Packard HP48G/GX RPN calculator.
 1. Glassmorphism design language from Apple OSX Big Sur.
 
+Live Demo
+=========
+http://innershell.ca/calc/
+
+Features
+========
 I created this calculator because:
 1. m48+ is no longer available on the Apple app store.
 1. Droid48 is only available on Android.
@@ -36,3 +40,13 @@ Technical Details
 =================
 1. Uses HTML5, CSS, and JavaScript only.
 1. Settings are saved to local storage.
+
+Bugs and Feature Requests
+=========================
+
+License
+=======
+
+Donations
+=========
+
