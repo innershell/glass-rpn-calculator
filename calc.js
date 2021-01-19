@@ -1,25 +1,19 @@
-var stack = []; // The stack register.
-var undo_stack = [] // The stack to undo an action.
+var stack = [];
+var undo_stack = []; // The stack register and undo stack.
 var memory = {}; // The memory store register.
 var statusbar = document.querySelector('.calculator__statusbar');
 var argument = document.querySelector('.calculator__argument');
-var rightShift = false;
-var leftShift = false;
+var rightShift, leftShift = false;
 const keys = document.getElementById('keys_wrapper');
 
 // Initialive the application.
-setBackgroundImage(); // Load user preferred image.
-toggleButtons(true, false, false); // Initialize the primary keys;
+setBackgroundImage();               // Load user preferred image.
+toggleButtons(true, false, false);  // Initialize the primary keys;
 
-// Event: Change background image.
-statusbar.addEventListener('click', e => {
-  setBackgroundImage(true);
-});
-
-// Event: Mouse clicks.
-keys.addEventListener('click', e => {
-  action(e);
-});
+// Create events listeners.
+statusbar.addEventListener('click', e => setBackgroundImage(true)); // Change background image.
+document.addEventListener('keydown', e => action(e));               // Keyboard inputs.
+keys.addEventListener('click', e => action(e));                     // Mouse clicks.
 
 // Event: Touchscreen clicks
 keys.addEventListener('touchend', e => {
@@ -28,17 +22,12 @@ keys.addEventListener('touchend', e => {
   e.preventDefault();
 });
 
-// Event: Keyboard inputs.
-document.addEventListener('keydown', e => {
-  action(e);
-})
-
 updateStack();
 
 function action(e) {
   // Keyboard inputs.
-  if (/[0-9]/.test(e.key)) keyNumber(e.key);
-  if (/\./.test(e.key)) keyNumber('.');
+  if (/[0-9]/.test(e.key)) keyboardNumber(e.key);
+  if (/\./.test(e.key)) keyboardNumber('.');
   if (/Enter/.test(e.key)) keyEnter();
   if (/\//.test(e.key)) keyDivide();
   if (/\*/.test(e.key)) keyMultiply();
@@ -53,56 +42,9 @@ function action(e) {
   if (e.target.matches('button')) {
     const key = e.target;
     const action = key.dataset.action;
+
     statusbar.textContent = ''; // Reset the statusbar.
-    
-    // Memory keys    
-    if (action === 'memory') keyMemory(e.target.value); // Primary
-    if (action === 'clear-memory') keyClearMemory(e.target.value);  // Green
-    if (action === 'store') keyStoreMemory(); // Primary
-
-    // Scientific math functions.
-    if (action === 'sin') keyMathSin(); // Primary
-    if (action === 'asin') keyMathAsin(); // Purple
-    if (action === 'redo') keyMathRedo(); // Green
-
-    if (action === 'cos') keyMathCos(); // Primary
-    if (action === 'acos') keyMathAcos(); // Purple
-    if (action === 'undo') keyUndo(); // Green
-
-    if (action === 'tan') keyMathTan(); // Primary
-    if (action === 'atan') keyMathAtan(); // Purple
-
-    if (action === 'sqrt') keyMathSqrt(); // Primary
-    if (action === 'sq') keyMathSquare(); // Purple
-    if (action === 'xroot') keyMathXroot(); // Green
-
-    if (action === 'pow') keyMathPow(); // Primary
-    if (action === 'alog') keyMathAlog(); // Purple
-    if (action === 'log') keyMathLog10(); // Green
-
-    if (action === 'inv') keyMathInv();
-    if (action === 'exp') keyMathExp(); // Purple
-    if (action === 'ln') keyMathLog(); // Green
-    
-    // Algebraic math functions.
-    if (action === 'divide') keyDivide();
-    if (action === 'multiply') keyMultiply();
-    if (action === 'subtract') keySubtract();
-    if (action === 'add') keyAdd();      
-    if (action === 'enter') keyEnter();
-    if (action == 'negative') keyNegative();
-    if (action == 'eex') keyEEX();
-    
-    // Number keys pressed.
-    if (!action) keyNumber(key.textContent); 
-
-    // Stack operations.
-    if (action === 'delete') keyDelete();
-    if (action === 'drop') keyDrop();
-    if (action === 'on') keyCancel();
-    if (action === 'space') keySpace();
-    if (action === 'left-shift') keyLeftShift();
-    if (action === 'right-shift') keyRightShift();
+    this["key" + action](e);    // Dynamically call method based on action name.
   }
 
   updateStack(); // Update the stack after every operation.
@@ -116,8 +58,8 @@ function action(e) {
 
 /* MEMORY FUNCTIONS ---------------------------------------------------------*/
 
-function keyMemory(memoryRegister) {
-  const register = memoryRegister;
+function keyMemory(event) {
+  const register = event.target.value;
   const registerValue = memory[register];
 
   if (!registerValue) {
@@ -130,15 +72,22 @@ function keyMemory(memoryRegister) {
   }
 }
 
-function keyStoreMemory() {
-  prepareStack();
-  const arg_01 = popStack();
-  const arg_02 = popStack();
-  memory[arg_01] = arg_02;
+function keyStore() {
+  if (prepareStack() >= 2) {
+    if (/M[1-6]/.test(stack[0])) { // Check if the first argument is a memory.
+      const arg_01 = popStack();
+      const arg_02 = popStack();
+      memory[arg_01] = arg_02;
+    } else {
+      statusbar.textContent = 'STO Error: No Memory Selected';
+    }
+  } else {
+    statusbar.textContent = 'STO Error: Too Few Arguments';
+  }
 }
 
-function keyClearMemory(memoryRegister) {
-  const register = memoryRegister;
+function keyClearMemory(event) {
+  const register = event.target.value;
   memory[register] = null;
   keyRightShift();
 }
@@ -146,7 +95,7 @@ function keyClearMemory(memoryRegister) {
 /* SCIENTIFIC MATH FUNCTIONS ------------------------------------------------*/
 
 // Primary
-function keyMathSin() {
+function keySin() {
   if (prepareStack() >= 1) {
     undo_stack = stack.slice();
     const arg_01 = popStack();
@@ -157,7 +106,7 @@ function keyMathSin() {
 }
 
 // Purple
-function keyMathAsin() {
+function keyAsin() {
   if (prepareStack() >= 1) {
     undo_stack = stack.slice();
     const arg_01 = popStack();
@@ -169,7 +118,7 @@ function keyMathAsin() {
 }
 
 // Primary
-function keyMathCos() {
+function keyCos() {
   if (prepareStack() >= 1) {
     undo_stack = stack.slice();
     const arg_01 = popStack();
@@ -179,14 +128,8 @@ function keyMathCos() {
   }
 }
 
-// Green
-function keyRedo() {
-  console.log('Redo stack unimplemented');
-  keyRightShift(); // Right-shift completed.
-}
-
 // Purple
-function keyMathAcos() {
+function keyAcos() {
   if (prepareStack() >= 1) {
     undo_stack = stack.slice();
     const arg_01 = popStack();
@@ -206,7 +149,7 @@ function keyUndo() {
 }
 
 // Primary
-function keyMathTan() {
+function keyTan() {
   if (prepareStack() >= 1) {
     undo_stack = stack.slice();
     const arg_01 = popStack();
@@ -217,7 +160,7 @@ function keyMathTan() {
 }
 
 // Purple
-function keyMathAtan() {
+function keyAtan() {
   if (prepareStack() >= 1) {
     undo_stack = stack.slice();
     const arg_01 = popStack();
@@ -229,7 +172,7 @@ function keyMathAtan() {
 }
 
 // Primary
-function keyMathSqrt() {
+function keySqrt() {
   if (prepareStack() >= 1) {
     undo_stack = stack.slice();
     const arg_01 = popStack();
@@ -240,7 +183,7 @@ function keyMathSqrt() {
 }
 
 // Purple
-function keyMathSquare() {
+function keySquare() {
   if (prepareStack() >= 1) {
     undo_stack = stack.slice();
     const arg_01 = popStack();
@@ -252,7 +195,7 @@ function keyMathSquare() {
 }
 
 // Green
-function keyMathXroot() {
+function keyXroot() {
   if (prepareStack() >= 2) {
     undo_stack = stack.slice();
     const arg_01 = popStack();
@@ -265,7 +208,7 @@ function keyMathXroot() {
 }
 
 // Primary
-function keyMathPow() {
+function keyPow() {
   if (prepareStack() >= 2) {
     undo_stack = stack.slice();
     const arg_01 = popStack();
@@ -277,7 +220,7 @@ function keyMathPow() {
 }
 
 // Purple
-function keyMathAlog() {
+function keyAlog() {
   if (prepareStack() >= 1) {
     undo_stack = stack.slice();
     const arg_01 = popStack();
@@ -289,7 +232,7 @@ function keyMathAlog() {
 }
 
 // Green
-function keyMathLog10() {
+function keyLog10() {
   if (prepareStack() >= 1) {
     undo_stack = stack.slice();
     const arg_01 = popStack();
@@ -301,7 +244,7 @@ function keyMathLog10() {
 }
 
 // Primary
-function keyMathInv() {
+function keyInv() {
   if (prepareStack() >= 1) {
     undo_stack = stack.slice();
     const arg_01 = popStack();
@@ -312,7 +255,7 @@ function keyMathInv() {
 }
 
 // Purple
-function keyMathExp() {
+function keyExp() {
   if (prepareStack() >= 1) {
     undo_stack = stack.slice();
     const arg_01 = popStack();
@@ -324,7 +267,7 @@ function keyMathExp() {
 }
 
 // Green
-function keyMathLog() {
+function keyLog() {
   if (prepareStack() >= 1) {
     undo_stack = stack.slice();
     const arg_01 = popStack();
@@ -409,8 +352,18 @@ function keyEEX() {
 /**
  * Captures numbers as arguments.
  */
-function keyNumber(value) {
+function keyNumber(element) {
+  argument.textContent += element.target.textContent;
+}
+
+function keyboardNumber(value) {
   argument.textContent += value;
+}
+
+function keyPi() {
+  prepareStack();
+  pushStack('3.14159265358979323846');
+  keyLeftShift();
 }
 
 function keyNegative() {
@@ -453,6 +406,8 @@ function keyEnter() {
  */
 function keyCancel() {
   argument.textContent = '';
+  leftShift = rightShift = false;
+  toggleButtons(true, false, false);
 }
 
 /**
@@ -566,7 +521,7 @@ function isValidSyntax() {
  * @param {*} value - The value to test.
  */
 function isMemory(value) {
-  return /M:[1-6]/g.test(value);
+  return /M[1-6]/g.test(value);
 }
 
 /**
@@ -577,7 +532,7 @@ function pushStack(arg_01) {
   if (isMemory(arg_01)) {
     stack.unshift(arg_01);
   } else {
-    stack.unshift(Number(arg_01).toLocaleString());
+    stack.unshift(Number(arg_01).toLocaleString(undefined, {maximumFractionDigits: 20}));
   }
   updateStack();
 }
@@ -649,21 +604,15 @@ function prepareStack() {
 }
 
 /**
- * Syncs the display with the stack register.
+ * Syncs the display with the stack register. Note that the HTML stack is
+ * displayed in the reverse order than the stack register. So, the display
+ * is populated from the stop of the stack working down.
  */
 function updateStack() {
-  // Change this to an iterator later.
-  document.getElementById('stack_00').textContent = stack[0];
-  document.getElementById('stack_01').textContent = stack[1];
-  document.getElementById('stack_02').textContent = stack[2];
-  document.getElementById('stack_03').textContent = stack[3];
-  document.getElementById('stack_04').textContent = stack[4];
-  document.getElementById('stack_05').textContent = stack[5];
-  document.getElementById('stack_06').textContent = stack[6];
-  document.getElementById('stack_07').textContent = stack[7];
-  document.getElementById('stack_08').textContent = stack[8];
-  document.getElementById('stack_09').textContent = stack[9];
-  document.getElementById('stack_10').textContent = stack[10];
+  const rows = document.getElementsByClassName('stack_value');
+  for (let i=0; i<rows.length; i++) {
+    rows[i].textContent = stack[rows.length - 1 - i];
+  }
 };
 
 /**

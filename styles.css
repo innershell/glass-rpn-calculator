@@ -132,6 +132,7 @@ body {
 .container {
   border-radius: 12px;
   min-width: 380px;
+  margin-bottom: 20px;
   -webkit-backdrop-filter: blur(10px) brightness(50%) contrast(90%);
   backdrop-filter: blur(10px) brightness(50%) contrast(90%);
 }
@@ -162,7 +163,7 @@ body {
   font-family: 'LCD Display Grid';
   font-size: 0.9em;
   font-weight: 300;
-  line-height: 2em;
+  line-height: 1.4em;
   padding: 0.5em 0.7em 0.2em 0.7em;
 }
 
@@ -181,6 +182,7 @@ body {
   height: 2em;
   border-top: 1px solid rgba(255, 255, 255, 0.2);
   margin-top: 5px;
+  padding-top: 3px;
 }
 
 .calculator__display .stack_label {
@@ -267,6 +269,6 @@ button.key--green {
 }
 
 button.key--purple {
-  color: #e65eda;
+  color: #fc6ef0;
   /* background-color: #af7dab5d; */
 }
