@@ -1,0 +1,17 @@
+{
+  "name": "Glass RPN Calculator",
+  "short_name": "Glass RPN",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#000",
+  "description": "An RPN calcultor.",
+  "icons": [{
+    "src": "apple-touch-icon.png",
+    "sizes": "120x120",
+    "type": "image/png"
+  }],
+  "related_applications": [{
+    "platform": "play",
+    "url": "http://innershell.ca"
+  }]
+}

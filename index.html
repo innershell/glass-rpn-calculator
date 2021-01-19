@@ -1,0 +1,109 @@
+<!doctype html>
+<html>
+
+<head>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="manifest" href="manifest.json">
+  <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+</head>
+
+<body>
+  <div class="container">
+    <div class="calculator">
+      <div class="calculator__display">
+        <div class="calculator__statusbar">Glass RPN Calculator</div>
+        <div class="calculator__stack">
+          <span class="stack_label">10:</span><span id="stack_10" class="stack_value"></span>
+          <span class="stack_label">9:</span><span id="stack_09" class="stack_value"></span>
+          <span class="stack_label">8:</span><span id="stack_08" class="stack_value"></span>
+          <span class="stack_label">7:</span><span id="stack_07" class="stack_value"></span>
+          <span class="stack_label">6:</span><span id="stack_06" class="stack_value"></span>
+          <span class="stack_label">5:</span><span id="stack_05" class="stack_value"></span>
+          <span class="stack_label">4:</span><span id="stack_04" class="stack_value"></span>
+          <span class="stack_label">3:</span><span id="stack_03" class="stack_value"></span>
+          <span class="stack_label">2:</span><span id="stack_02" class="stack_value"></span>
+          <span class="stack_label">1:</span><span id="stack_01" class="stack_value"></span>
+          <span class="stack_label">0:</span><span id="stack_00" class="stack_value"></span>
+        </div>
+        <div class="calculator__argument"></div>
+      </div>
+      <div id="keys_wrapper" class="calculator__keys">
+        <div class="calculator__keys_function">
+          <button data-action="memory" value="M:1" class="key--level-0 key--memory">M1</button>
+          <button data-action="memory" value="M:2" class="key--level-0 key--memory">M2</button>
+          <button data-action="memory" value="M:3" class="key--level-0 key--memory">M3</button>
+          <button data-action="memory" value="M:4" class="key--level-0 key--memory">M4</button>
+          <button data-action="memory" value="M:5" class="key--level-0 key--memory">M5</button>
+          <button data-action="memory" value="M:6" class="key--level-0 key--memory">M6</button>
+
+          <button data-action="clear-memory" value="M:1" class="key--memory-clear key--level-1 key--level-2">CLR</button>
+          <button data-action="clear-memory" value="M:2" class="key--memory-clear key--level-1 key--level-2">CLR</button>
+          <button data-action="clear-memory" value="M:3" class="key--memory-clear key--level-1 key--level-2">CLR</button>
+          <button data-action="clear-memory" value="M:4" class="key--memory-clear key--level-1 key--level-2">CLR</button>
+          <button data-action="clear-memory" value="M:5" class="key--memory-clear key--level-1 key--level-2">CLR</button>
+          <button data-action="clear-memory" value="M:6" class="key--memory-clear key--level-1 key--level-2">CLR</button>
+
+          <button data-action="sin"  class="key--level-0">SIN</button>
+          <button data-action="cos"  class="key--level-0">COS</button>
+          <button data-action="tan"  class="key--level-0">TAN</button>
+          <button data-action="sqrt" class="key--level-0">&#x221A;</button>
+          <button data-action="pow"  class="key--level-0">y<sup>x</sup></button>
+          <button data-action="inv"  class="key--level-0">1/x</button>
+
+          <button data-action="" class="key--level-1 key--green"></button>
+          <button data-action="undo" class="key--level-1 key--green">UNDO</button>
+          <button data-action="sigma" class="key--level-1 key--green">&Sigma;</button>
+          <button data-action="xroot"   class="key--level-1 key--green"><sup>x</sup>&#x221A;y</button>
+          <button data-action="log" class="key--level-1 key--green">LOG</button>
+          <button data-action="ln"  class="key--level-1 key--green">LN</button>
+
+          <button data-action="asin" class="key--level-2 key--purple">ASIN</button>
+          <button data-action="acos" class="key--level-2 key--purple">ACOS</button>
+          <button data-action="atan" class="key--level-2 key--purple">ATAN</button>
+          <button data-action="sq"   class="key--level-2 key--purple">x<sup>2</sup></button>
+          <button data-action="alog" class="key--level-2 key--purple">10<sup>x</sup></button>
+          <button data-action="exp"  class="key--level-2 key--purple">e<sup>x</sup></button>
+
+          <button data-action="enter"    class="key--level-0 key--level-1 key--level-2 key--enter" >ENTER</button>
+          <button data-action="negative" class="key--level-0 key--level-1 key--level-2">&#x2B;/&#x2212;</button>
+          <button data-action="eex"      class="key--level-0 key--level-1 key--level-2">EEX</button>
+          <button data-action="delete"   class="key--level-0 key--level-1 key--level-2">DEL</button>
+          <button data-action="drop"     class="key--level-0 key--level-1 key--level-2">&#x140A;</button>
+        </div>
+        <div class="calculator__keys_number">
+          <button class="key--level-0 key--level-1 key--level-2" data-action="store">STO</button>
+          <button class="key--level-0 key--level-1 key--level-2">7</button>
+          <button class="key--level-0 key--level-1 key--level-2">8</button>
+          <button class="key--level-0 key--level-1 key--level-2">9</button>
+          <button class="key--level-0 key--level-1 key--level-2" data-action="divide">&#xF7;</button>
+
+          <button class="key--level-0 key--level-1 key--level-2" data-action="left-shift">&#x21B2;</button>
+          <button class="key--level-0 key--level-1 key--level-2">4</button>
+          <button class="key--level-0 key--level-1 key--level-2">5</button>
+          <button class="key--level-0 key--level-1 key--level-2">6</button>
+          <button class="key--level-0 key--level-1 key--level-2" data-action="multiply">&#xD7;</button>
+
+          <button class="key--level-0 key--level-1 key--level-2" data-action="right-shift">&#x21B1;</button>
+          <button class="key--level-0 key--level-1 key--level-2">1</button>
+          <button class="key--level-0 key--level-1 key--level-2">2</button>
+          <button class="key--level-0 key--level-1 key--level-2">3</button>
+          <button class="key--level-0 key--level-1 key--level-2" data-action="subtract">&#x2212;</button>
+
+          <button class="key--level-0 key--level-1 key--level-2" data-action="on">ON</button>
+          <button class="key--level-0 key--level-1 key--level-2">0</button>
+          <button class="key--level-0 key--level-1 key--level-2">.</button>
+          <button class="key--level-0 key--level-1" data-action="space">SPC</button>
+          <button class="key--level-2 key--purple" data-action="pi">&pi;</button>
+          <button class="key--level-0 key--level-1 key--level-2" data-action="add">&#x2B;</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="calc.js"></script>
+</body>
+
+</html>
