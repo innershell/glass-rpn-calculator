@@ -6,7 +6,7 @@ var argument = document.querySelector('.calculator__argument');
 var rightShift, leftShift = false;
 const keys = document.getElementById('keys_wrapper');
 
-// Initialive the application.
+// Initialize the application.
 setBackgroundImage();               // Load user preferred image.
 toggleButtons(true, false, false);  // Initialize the primary keys;
 
@@ -14,6 +14,7 @@ toggleButtons(true, false, false);  // Initialize the primary keys;
 statusbar.addEventListener('click', e => setBackgroundImage(true)); // Change background image.
 document.addEventListener('keydown', e => action(e));               // Keyboard inputs.
 keys.addEventListener('click', e => action(e));                     // Mouse clicks.
+
 
 // Event: Touchscreen clicks
 keys.addEventListener('touchend', e => {
@@ -506,7 +507,10 @@ function showElementsByClass(classname) {
  * @returns {boolean} True if the syntax is valid; False otherwise.
  */
 function isValidSyntax() {
-  // Checking decimals.
+  // Checking single decimals.
+  if (argument.textContent === '.') return false;
+
+  // Checking too many decimals.
   if (argument.textContent.match(/\./g) != null && argument.textContent.match(/\./g).length > 1) return false;
 
   // Checking exponents.

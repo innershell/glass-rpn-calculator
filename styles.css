@@ -130,23 +130,15 @@ body {
 }
 
 .container {
-  border-radius: 12px;
+  border-radius: 15px;
   min-width: 380px;
   margin-bottom: 20px;
   -webkit-backdrop-filter: blur(10px) brightness(50%) contrast(90%);
   backdrop-filter: blur(10px) brightness(50%) contrast(90%);
 }
 
-.container > p {
-  text-align: center;
-  color: #fff;
-  font-size: 0.8em;
-  font-weight: 600;
-  padding: 0.5em 0;
-}
-
 .calculator {
-  border-radius: 12px;
+  border-radius: 15px;
   border-top: 1px solid rgba(255, 255, 255, 0.3);
   border-right: 1px solid rgba(255, 255, 255, 0.1);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -161,16 +153,18 @@ body {
   background-color: #22222294;
   color: #fff;
   font-family: 'LCD Display Grid';
-  font-size: 0.9em;
+  /* font-size: 0.9em; */
+  font-size: 1.8vh;
   font-weight: 300;
-  line-height: 1.4em;
+  line-height: 1.8em;
   padding: 0.5em 0.7em 0.2em 0.7em;
 }
 
 .calculator__statusbar {
-  height: 2em;
+  line-height: 1.4em;
+  height: 1.7em;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  margin-bottom: 5px;
+  margin-bottom: 0.2em;
 }
 
 .calculator__stack {
@@ -181,8 +175,8 @@ body {
 .calculator__argument {
   height: 2em;
   border-top: 1px solid rgba(255, 255, 255, 0.2);
-  margin-top: 5px;
-  padding-top: 3px;
+  margin-top: 0.2em;
+  padding-top: 0.1em;
 }
 
 .calculator__display .stack_label {
@@ -200,14 +194,17 @@ body {
 
 .calculator__keys button {
   color: #fff;
-  padding: 10px 0;
+  min-height: 2.8em;
+  min-width: 4em;
   position: relative;
-  font-size: 0.9em;
-  font-weight: 600;
+  font-size: 1.6vh;
+  font-weight: 300;
   text-align: center;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-  margin: 5px 5px;
+  border-radius: 1.2em;
+  padding: 0.7em 0.4em;
+  margin: 0.3em;
+  
 }
 
 .calculator__keys_function {
@@ -244,31 +241,34 @@ button.is-depressed::before {
 }
 
 button.key--memory {
-  width: 1fr;
-  height: 25px;
-  padding: 0px;;
+  min-height: 2.1em;
+  padding: 0;
   color: #fff;
   background-color: rgba(255, 255, 255, 0.3);
 }
 
 button.key--memory-clear {
-  width: 1fr;
-  height: 25px;
-  padding: 0px;
+  min-height: 2.1em;
+  padding: 0;
   color: #fff;
-  font-size: 0.8em;
 }
 
 .key--enter {
   grid-column: 1 / 3;
 }
 
-button.key--green {
-  color: #64dcbc;
-  /* background-color: #64dcbc60; */
-}
-
 button.key--purple {
   color: #fc6ef0;
-  /* background-color: #af7dab5d; */
+}
+
+button.key--green {
+  color: #64dcbc;
+}
+
+button.btn--purple {
+  background-color: #fc6ef018;
+}
+
+button.btn--green {
+  background-color: #64dcbc1a;
 }
