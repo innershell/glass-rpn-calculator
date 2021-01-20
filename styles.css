@@ -187,8 +187,11 @@ body {
   text-align: right;
 }
 
+.calculator__display .stack_value:active {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
 .calculator__keys {
-  background-color: rgba(255, 255, 255, 0);
   padding: 0.5em;
 }
 

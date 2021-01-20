@@ -5,6 +5,7 @@ var statusbar = document.querySelector('.calculator__statusbar');
 var argument = document.querySelector('.calculator__argument');
 var rightShift, leftShift = false;
 const keys = document.getElementById('keys_wrapper');
+const display = document.querySelector('.calculator__stack');
 
 // Initialize the application.
 setBackgroundImage();               // Load user preferred image.
@@ -14,9 +15,9 @@ toggleButtons(true, false, false);  // Initialize the primary keys;
 statusbar.addEventListener('click', e => setBackgroundImage(true)); // Change background image.
 document.addEventListener('keydown', e => action(e));               // Keyboard inputs.
 keys.addEventListener('click', e => action(e));                     // Mouse clicks.
+display.addEventListener('click', e => rollStack(e));               // Display click.
 
-
-// Event: Touchscreen clicks
+// Event: Touchscreen key/button clicks
 keys.addEventListener('touchend', e => {
   action(e);
   e.stopPropagation();
@@ -24,6 +25,12 @@ keys.addEventListener('touchend', e => {
 });
 
 updateStack();
+
+function rollStack(e) {
+  const stackLevel = e.target.getAttribute('value');
+  const arg_01 = stack.splice(stackLevel, 1);
+  if (arg_01.length > 0) pushStack(arg_01);
+}
 
 function action(e) {
   // Keyboard inputs.
