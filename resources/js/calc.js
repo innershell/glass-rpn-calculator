@@ -634,10 +634,10 @@ function setBackgroundImage(change = false) {
   let image = localStorage.getItem('BG_IMAGE');
 
   image === null ? image = 1 : null;  // No default image saved.
-  isNaN(image) ? image = 1 : null;  // No default image saved.
-  change ? image++ : null;          // User asked to change image.
-  image > 11 ? image = 1 : null;     // Rotate image back to start.
+  isNaN(image) ? image = 1 : null;    // No default image saved.
+  change ? image++ : null;            // User asked to change image.
+  image > 11 ? image = 1 : null;      // Rotate image back to start.
 
-  document.body.style.backgroundImage = `url('bg${image}.jpg')`;
+  document.body.style.backgroundImage = `url('./resources/images/themes/bg${image}.jpg')`;
   localStorage.setItem('BG_IMAGE', `${image}`);
 }
