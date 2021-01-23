@@ -1,5 +1,6 @@
-var stack = [];
-var undo_stack = []; // The stack register and undo stack.
+var stack = [];       // The main stack.
+var undoStack = [];  // The undo stack.
+var redoStack = [];  // The redo stack.
 var memory = {}; // The memory store register.
 var statusbar = document.querySelector('.calculator__statusbar');
 var argument = document.querySelector('.calculator__argument');
@@ -12,7 +13,7 @@ setBackgroundImage();               // Load user preferred image.
 toggleButtons(true, false, false);  // Initialize the primary keys;
 
 // Create events listeners.
-statusbar.addEventListener('click', e => setBackgroundImage(true)); // Change background image.
+statusbar.addEventListener('click', () => setBackgroundImage(true)); // Change background image.
 document.addEventListener('keydown', e => action(e));               // Keyboard inputs.
 keys.addEventListener('click', e => action(e));                     // Mouse clicks.
 display.addEventListener('click', e => rollStack(e));               // Display click.
@@ -26,6 +27,10 @@ keys.addEventListener('touchend', e => {
 
 updateStack();
 
+/**
+ * Moves the clicked stack value to the front of the stack.
+ * @param {event} e - The event to handle.
+ */
 function rollStack(e) {
   const stackLevel = e.target.getAttribute('value');
   const arg_01 = stack.splice(stackLevel, 1);
@@ -33,6 +38,10 @@ function rollStack(e) {
 }
 
 function action(e) {
+  /* These are the only functions that can be undone. */
+  const undoRegex = /Sin|Cos|Tan|Sqrt|Pow|Inv|Xroot|Log10|Log|Asin|Acos|Atan|Square|Alog|Exp|Enter|Negative|Delete|Drop|Divide|Multiply|Subtract|Add|Pi|Backspace|Delete|\/|\*|\-|\+/;
+  const tmpUndoStack = stack.slice(); // Copies the current stack.
+
   // Keyboard inputs.
   if (/[0-9]/.test(e.key)) keyboardNumber(e.key);
   if (/\./.test(e.key)) keyboardNumber('.');
@@ -47,16 +56,27 @@ function action(e) {
   if (/Delete/.test(e.key)) keyDelete();
 
   // Touchscreens touch inputs.
+  let keyAction = 'NONE';
   if (e.target.matches('button')) {
     const key = e.target;
-    const action = key.dataset.action;
-
+    keyAction = key.dataset.action;
     statusbar.textContent = ''; // Reset the statusbar.
-    this["key" + action](e);    // Dynamically call method based on action name.
+    this["key" + keyAction](e);    // Dynamically call method based on action name.
   }
 
+  if (undoRegex.test(keyAction) || undoRegex.test(e.key)) {
+    console.log("keyAction = " + keyAction);
+    console.log("Undo Stack = "); console.log(undoStack);
+    console.log("Main Stack = "); console.log(stack);
+    console.log("Redo Stack = "); console.log(redoStack);
+    // console.log(JSON.stringify(tmpUndoStack) != JSON.stringify(stack))
+    if (JSON.stringify(tmpUndoStack) != JSON.stringify(stack)) undoStack.unshift(tmpUndoStack);
+    keyAction = 'NONE';
+}
+
+
   updateStack(); // Update the stack after every operation.
-  document.activeElement.blur(); // Remove focus from the active button.
+  document.activeElement.blur(); // Remove focus from button to prevent accidental keyboard clicks after a mouse click.
 }
 
 /*****************************************************************************\
@@ -105,7 +125,6 @@ function keyClearMemory(event) {
 // Primary
 function keySin() {
   if (prepareStack() >= 1) {
-    undo_stack = stack.slice();
     const arg_01 = popStack();
     pushStack(Math.sin(arg_01 * Math.PI / 180));
   } else {
@@ -116,7 +135,6 @@ function keySin() {
 // Purple
 function keyAsin() {
   if (prepareStack() >= 1) {
-    undo_stack = stack.slice();
     const arg_01 = popStack();
     pushStack(Math.asin(arg_01) / Math.PI * 180);
   } else {
@@ -125,10 +143,21 @@ function keyAsin() {
   keyLeftShift(); // Left-shift completed.
 }
 
+// Green
+function keyReset() {
+  stack = [];
+  undoStack = [];
+  redoStack = [];
+  memory = [];
+
+  console.log("Undo Stack = "); console.log(undoStack);
+  console.log("Main Stack = "); console.log(stack);
+  console.log("Redo Stack = "); console.log(redoStack);
+}
+
 // Primary
 function keyCos() {
   if (prepareStack() >= 1) {
-    undo_stack = stack.slice();
     const arg_01 = popStack();
     pushStack(Math.cos(arg_01 * Math.PI / 180));
   } else {
@@ -139,7 +168,6 @@ function keyCos() {
 // Purple
 function keyAcos() {
   if (prepareStack() >= 1) {
-    undo_stack = stack.slice();
     const arg_01 = popStack();
     pushStack(Math.acos(arg_01) / Math.PI * 180);
   } else {
@@ -150,16 +178,21 @@ function keyAcos() {
 
 // Green
 function keyUndo() {
-  const redo_stack = stack.slice();
-  stack = undo_stack.slice();
-  undo_stack = redo_stack.slice();
-  keyRightShift(); // Right-shift completed.
+  if (undoStack.length == 0) {
+    stack.length = 0;
+  } else {
+    redoStack.unshift(stack.slice());
+    stack = undoStack.shift().slice();
+  }
+  keyRightShift(); // Right-shift completed.  
+  console.log("Undo Stack = "); console.log(undoStack);
+  console.log("Main Stack = "); console.log(stack);
+  console.log("Redo Stack = "); console.log(redoStack);
 }
 
 // Primary
 function keyTan() {
   if (prepareStack() >= 1) {
-    undo_stack = stack.slice();
     const arg_01 = popStack();
     pushStack(Math.tan(arg_01 * Math.PI / 180));
   } else {
@@ -170,7 +203,6 @@ function keyTan() {
 // Purple
 function keyAtan() {
   if (prepareStack() >= 1) {
-    undo_stack = stack.slice();
     const arg_01 = popStack();
     pushStack(Math.atan(arg_01) / Math.PI * 180);
   } else {
@@ -179,10 +211,19 @@ function keyAtan() {
   keyLeftShift(); // Left-shift completed.
 }
 
+// Green
+function keyRedo() {
+  redoStack.length == 0 ? stack.length = 0 : stack = redoStack.shift();
+  keyRightShift(); // Right-shift completed.
+
+  console.log("Undo Stack = "); console.log(undoStack);
+  console.log("Main Stack = "); console.log(stack);
+  console.log("Redo Stack = "); console.log(redoStack);
+}
+
 // Primary
 function keySqrt() {
   if (prepareStack() >= 1) {
-    undo_stack = stack.slice();
     const arg_01 = popStack();
     pushStack(Math.sqrt(arg_01));
   } else {
@@ -193,7 +234,6 @@ function keySqrt() {
 // Purple
 function keySquare() {
   if (prepareStack() >= 1) {
-    undo_stack = stack.slice();
     const arg_01 = popStack();
     pushStack(Math.pow(arg_01, 2));
   } else {
@@ -205,7 +245,6 @@ function keySquare() {
 // Green
 function keyXroot() {
   if (prepareStack() >= 2) {
-    undo_stack = stack.slice();
     const arg_01 = popStack();
     const arg_02 = popStack();
     pushStack(Math.pow(arg_02, 1 / arg_01));
@@ -218,7 +257,6 @@ function keyXroot() {
 // Primary
 function keyPow() {
   if (prepareStack() >= 2) {
-    undo_stack = stack.slice();
     const arg_01 = popStack();
     const arg_02 = popStack();
     pushStack(Math.pow(arg_02, arg_01));
@@ -230,7 +268,6 @@ function keyPow() {
 // Purple
 function keyAlog() {
   if (prepareStack() >= 1) {
-    undo_stack = stack.slice();
     const arg_01 = popStack();
     pushStack(Math.pow(10, arg_01));
   } else {
@@ -242,7 +279,6 @@ function keyAlog() {
 // Green
 function keyLog10() {
   if (prepareStack() >= 1) {
-    undo_stack = stack.slice();
     const arg_01 = popStack();
     pushStack(Math.log10(arg_01));
   } else {
@@ -254,7 +290,6 @@ function keyLog10() {
 // Primary
 function keyInv() {
   if (prepareStack() >= 1) {
-    undo_stack = stack.slice();
     const arg_01 = popStack();
     pushStack(1 / arg_01);
   } else {
@@ -265,7 +300,6 @@ function keyInv() {
 // Purple
 function keyExp() {
   if (prepareStack() >= 1) {
-    undo_stack = stack.slice();
     const arg_01 = popStack();
     pushStack(Math.exp(arg_01));
   } else {
@@ -277,7 +311,6 @@ function keyExp() {
 // Green
 function keyLog() {
   if (prepareStack() >= 1) {
-    undo_stack = stack.slice();
     const arg_01 = popStack();
     pushStack(Math.log(arg_01));
   } else {
@@ -294,7 +327,6 @@ function keyLog() {
  */
 function keyDivide() {
   if (prepareStack() >= 2) {
-    undo_stack = stack.slice();
     const arg_01 = popStack();
     const arg_02 = popStack();
     pushStack(arg_02 / arg_01);
@@ -308,7 +340,6 @@ function keyDivide() {
  */
 function keyMultiply() {
   if (prepareStack() >= 2) {
-    undo_stack = stack.slice();
     const arg_01 = popStack();
     const arg_02 = popStack();
     pushStack(arg_02 * arg_01);
@@ -322,7 +353,6 @@ function keyMultiply() {
  */
 function keySubtract() {
   if (prepareStack() >= 2) {
-    undo_stack = stack.slice();
     const arg_01 = popStack();
     const arg_02 = popStack();
     pushStack(arg_02 - arg_01);
@@ -336,7 +366,6 @@ function keySubtract() {
  */
 function keyAdd() {
   if (prepareStack() >= 2) {
-    undo_stack = stack.slice();
     const arg_01 = popStack();
     const arg_02 = popStack();
     pushStack(arg_02 + arg_01);
@@ -423,7 +452,6 @@ function keyCancel() {
  */
 function keyDrop() {
   if (argument.textContent) {
-    undo_stack = stack.slice();
     argument.textContent = argument.textContent.substring(0,argument.textContent.length-1);
   } else {
     popStack();
@@ -434,7 +462,6 @@ function keyDrop() {
  * Clears the stack.
  */
 function keyDelete() {
-  undo_stack = stack.slice();
   stack.length = 0;
 }
 
