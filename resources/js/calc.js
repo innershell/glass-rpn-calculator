@@ -3,6 +3,7 @@ var undoStack = [];  // The undo stack.
 var redoStack = [];  // The redo stack.
 var memory = {}; // The memory store register.
 var statusbar = document.querySelector('.calculator__statusbar');
+var infobar = document.querySelector('.calculator__infobar');
 var argument = document.querySelector('.calculator__argument');
 var rightShift, leftShift = false;
 const keys = document.getElementById('keys_wrapper');
@@ -42,6 +43,8 @@ function action(e) {
   const undoRegex = /Sin|Cos|Tan|Sqrt|Pow|Inv|Xroot|Log10|Log|Asin|Acos|Atan|Square|Alog|Exp|Enter|Negative|Delete|Drop|Divide|Multiply|Subtract|Add|Pi|Backspace|Delete|\/|\*|\-|\+/;
   const tmpUndoStack = stack.slice(); // Copies the current stack.
 
+  toggleStatusInfoBar();
+
   // Keyboard inputs.
   if (/[0-9]/.test(e.key)) keyboardNumber(e.key);
   if (/\./.test(e.key)) keyboardNumber('.');
@@ -65,17 +68,17 @@ function action(e) {
   }
 
   if (undoRegex.test(keyAction) || undoRegex.test(e.key)) {
-    console.log("keyAction = " + keyAction);
-    console.log("Undo Stack = "); console.log(undoStack);
-    console.log("Main Stack = "); console.log(stack);
-    console.log("Redo Stack = "); console.log(redoStack);
+    // console.log("keyAction = " + keyAction);
+    // console.log("Undo Stack = "); console.log(undoStack);
+    // console.log("Main Stack = "); console.log(stack);
+    // console.log("Redo Stack = "); console.log(redoStack);
     // console.log(JSON.stringify(tmpUndoStack) != JSON.stringify(stack))
     if (JSON.stringify(tmpUndoStack) != JSON.stringify(stack)) undoStack.unshift(tmpUndoStack);
     keyAction = 'NONE';
 }
 
-
   updateStack(); // Update the stack after every operation.
+  toggleStatusInfoBar();
   document.activeElement.blur(); // Remove focus from button to prevent accidental keyboard clicks after a mouse click.
 }
 
@@ -150,9 +153,9 @@ function keyReset() {
   redoStack = [];
   memory = [];
 
-  console.log("Undo Stack = "); console.log(undoStack);
-  console.log("Main Stack = "); console.log(stack);
-  console.log("Redo Stack = "); console.log(redoStack);
+  // console.log("Undo Stack = "); console.log(undoStack);
+  // console.log("Main Stack = "); console.log(stack);
+  // console.log("Redo Stack = "); console.log(redoStack);
 }
 
 // Primary
@@ -185,9 +188,9 @@ function keyUndo() {
     stack = undoStack.shift().slice();
   }
   keyRightShift(); // Right-shift completed.  
-  console.log("Undo Stack = "); console.log(undoStack);
-  console.log("Main Stack = "); console.log(stack);
-  console.log("Redo Stack = "); console.log(redoStack);
+  // console.log("Undo Stack = "); console.log(undoStack);
+  // console.log("Main Stack = "); console.log(stack);
+  // console.log("Redo Stack = "); console.log(redoStack);
 }
 
 // Primary
@@ -216,9 +219,9 @@ function keyRedo() {
   redoStack.length == 0 ? stack.length = 0 : stack = redoStack.shift();
   keyRightShift(); // Right-shift completed.
 
-  console.log("Undo Stack = "); console.log(undoStack);
-  console.log("Main Stack = "); console.log(stack);
-  console.log("Redo Stack = "); console.log(redoStack);
+  // console.log("Undo Stack = "); console.log(undoStack);
+  // console.log("Main Stack = "); console.log(stack);
+  // console.log("Redo Stack = "); console.log(redoStack);
 }
 
 // Primary
@@ -432,9 +435,9 @@ function keyEnter() {
     prepareStack();
   } 
   
-  // Duplicate the first item on the stack.
+  // Duplicate the first item on the stack without doing anything fancy.
   else {
-    pushStack(stack[0]);
+    stack.unshift(stack[0]);
   }
 }
 
@@ -667,4 +670,48 @@ function setBackgroundImage(change = false) {
 
   document.body.style.backgroundImage = `url('./resources/images/themes/bg${image}.jpg')`;
   localStorage.setItem('BG_IMAGE', `${image}`);
+}
+
+/**
+ * Tests if the value is NOT a number.
+ * @param {*} value - The value to test.
+ */
+function isNumber(value) {
+  if (isNaN(value)) return false;
+  return true;
+}
+
+/**
+ * Intelligently determines whether the status bar shows an error or stats.
+ */
+function toggleStatusInfoBar() {
+  let sum = 0;
+  let rows = 0
+  for (let i=0; i<stack.length; i++) {
+    const stackValue = stack[i].replace(/\,/g,'');
+    if (isNumber(Number(stackValue))) {
+      sum += Number(stackValue);
+      rows++;
+    }
+  }
+  let avg = (rows == 0) ? 0 : (sum/rows).toLocaleString(undefined, {maximumFractionDigits: 2})
+  sum = sum.toLocaleString(undefined, {maximumFractionDigits: 20});
+
+  // Refresh the info bar data.
+  document.getElementById("infoRedo").textContent = redoStack.length;
+  document.getElementById("infoUndo").textContent = undoStack.length;
+  document.getElementById("infoAverage").textContent = avg;
+  document.getElementById("infoSum").textContent = sum;
+
+  // Display the status bar if there is a message.
+  if (statusbar.textContent != '') {
+    statusbar.style.display = null;
+    infobar.style.display = 'none';
+  }
+  
+  // Display the info bar.
+  else {
+    statusbar.style.display = 'none';
+    infobar.style.display = 'grid';
+  }
 }

@@ -5,7 +5,7 @@
   <link rel="stylesheet" href="./resources/css/main.css">
   <link rel="apple-touch-icon" href="./resources/images/icons/apple-touch-icon.png">
   <link rel="manifest" href="manifest.json">
-  <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
 </head>
@@ -15,6 +15,12 @@
     <div class="calculator">
       <div class="calculator__display">
         <div class="calculator__statusbar">Glass RPN Calculator</div>
+        <div class="calculator__infobar">
+          <div><span>U</span>:<span id="infoUndo">0</span></div>
+          <div><span>R</span>:<span id="infoRedo">0</span></div>
+          <div><span>Avg</span>=<span id="infoAverage">0</span></div>
+          <div><span>Sum</span>=<span id="infoSum">0</span></div>
+        </div>
         <div class="calculator__stack">
           <span class="stack_label">10:</span><span value="10" class="stack_value"></span>
           <span class="stack_label">9:</span><span value="9" class="stack_value"></span>
@@ -54,8 +60,8 @@
           <button data-action="Inv"  class="key--level-0">1/x</button>
 
           <button data-action="Reset" class="key--level-1 key--green">RESET</button>
-          <button data-action="Redo"  class="key--level-1 key--green">REDO</button>
           <button data-action="Undo"  class="key--level-1 key--green">UNDO</button>
+          <button data-action="Redo"  class="key--level-1 key--green">REDO</button>
           <button data-action="Xroot" class="key--level-1 key--green"><sup>x</sup>&#x221A;y</button>
           <button data-action="Log10" class="key--level-1 key--green">LOG</button>
           <button data-action="Log"   class="key--level-1 key--green">LN</button>
