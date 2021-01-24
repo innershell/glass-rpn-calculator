@@ -17,6 +17,13 @@ const display = document.querySelector('.calculator__stack');
   setBackgroundImage();               // Load user preferred image.
   toggleShiftButtons(true, false, false);  // Initialize the primary keys;
 
+  // Calculator automatically hides after a few seconds.
+  setTimeout(function(){
+    statusbar.textContent = '';
+    statusbar.style.display = 'none';
+    infobar.style.display = 'grid';
+  },2000);
+
   // Create events listeners.
   statusbar.addEventListener('click', () => setBackgroundImage(true)); // Change background image.
   infobar.addEventListener('click', () => setBackgroundImage(true)); // Change background image.

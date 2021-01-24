@@ -6,8 +6,6 @@ function keyboardAction(e) {
   /* These are the only functions that can be undone. */
   const undoRegex = /Enter|\/|\*|\-|\+/;
 
-  console.log(e.key);
-
   // Keyboard inputs.
   if (/[0-9]|\./.test(e.key))   doFunction("keyboardNumber", e, undoRegex);
   if (/Enter/.test(e.key))      doFunction("keyEnter", e, undoRegex);
