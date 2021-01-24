@@ -110,6 +110,7 @@ button:focus {
 
 :root {
   font-family: Helvetica, Arial, sans-serif;
+  font-size: 1.8vh;
 }
 
 html {
@@ -153,8 +154,6 @@ body {
   background-color: #22222294;
   color: #fff;
   font-family: 'LCD Display Grid';
-  /* font-size: 0.9em; */
-  font-size: 1.8vh;
   font-weight: 300;
   line-height: 1.8em;
   padding: 0.5em 0.7em 0.2em 0.7em;
@@ -164,17 +163,15 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr 5fr 5fr;
   font-size: 0.6em;
-  height: 2rem;
+  height: 2.1rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  margin-bottom: 0.2em;
 }
 
 .calculator__statusbar {
   display: none;
   line-height: 1.4em;
-  height: 2rem;
+  height: 2.1rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  margin-bottom: 0.2em;
 }
 
 .calculator__stack {
@@ -185,8 +182,6 @@ body {
 .calculator__argument {
   height: 2em;
   border-top: 1px solid rgba(255, 255, 255, 0.2);
-  margin-top: 0.2em;
-  padding-top: 0.1em;
 }
 
 .calculator__display .stack_label {

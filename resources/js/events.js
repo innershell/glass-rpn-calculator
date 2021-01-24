@@ -6,6 +6,8 @@ function keyboardAction(e) {
   /* These are the only functions that can be undone. */
   const undoRegex = /Enter|\/|\*|\-|\+/;
 
+  console.log(e.key);
+
   // Keyboard inputs.
   if (/[0-9]|\./.test(e.key))   doFunction("keyboardNumber", e, undoRegex);
   if (/Enter/.test(e.key))      doFunction("keyEnter", e, undoRegex);
@@ -17,6 +19,11 @@ function keyboardAction(e) {
   if (/ /.test(e.key))          doFunction("keySpace", e, undoRegex);
   if (/Escape/.test(e.key))     doFunction("keyCancel", e, undoRegex);
   if (/Delete/.test(e.key))     doFunction("keyDelete", e, undoRegex);
+  if (/Control/.test(e.key))    doFunction("keyRightShift", e, undoRegex);
+  if (/Meta/.test(e.key))       doFunction("keyRightShift", e, undoRegex);
+  if (/z/.test(e.key))          doFunction("keyUndo", e, undoRegex);
+  if (/c/.test(e.key))          doFunction("keyCopy", e, undoRegex);
+  // if (/E/.test(e.key))          doFunction("keyEEX", e, undoRegex); // Broken on keyboards.
 }
 
 /**

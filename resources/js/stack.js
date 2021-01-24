@@ -22,7 +22,7 @@ function keyRightShift() {
 function keyLeftShift() {
   if (rightShift) rightShift = false;
   leftShift = !leftShift;
-  (leftShift) ? toggleShiftButtons(false, false, true) : toggleButtons(true, false, false);
+  (leftShift) ? toggleShiftButtons(false, false, true) : toggleShiftButtons(true, false, false);
 }
 
 
@@ -79,6 +79,19 @@ function keyDrop() {
   }
 }
 
+/**
+ * Copies the first item on the stack.
+ */
+function keyCopy() {
+  if (stack.length > 0) {
+    const copyValue = stack[0].replace(/\,/g, '');
+    navigator.permissions.query({name: "clipboard-write"}).then(result => {
+      if (result.state == "granted" || result.state == "prompt") {
+        navigator.clipboard.writeText(copyValue);
+      }
+    });
+  }
+}
 
 /**
  * Clears the stack.
@@ -94,7 +107,7 @@ function keyDelete() {
 function keyCancel() {
   argument.textContent = '';
   leftShift = rightShift = false;
-  toggleButtons(true, false, false);
+  toggleShiftButtons(true, false, false);
 }
 
 
