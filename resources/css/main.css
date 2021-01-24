@@ -161,16 +161,16 @@ body {
 }
 
 .calculator__infobar {
-  display: none;
+  display: grid;
   grid-template-columns: 1fr 1fr 5fr 5fr;
   font-size: 0.6em;
   height: 2rem;
-  text-align: center;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
   margin-bottom: 0.2em;
 }
 
 .calculator__statusbar {
+  display: none;
   line-height: 1.4em;
   height: 2rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);

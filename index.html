@@ -8,13 +8,19 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="apple-mobile-web-app-capable" content="yes">
+  <script type="text/javascript" src="./resources/js/ui.js"></script>
+  <script type="text/javascript" src="./resources/js/utility.js"></script>
+  <script type="text/javascript" src="./resources/js/memory.js"></script>
+  <script type="text/javascript" src="./resources/js/events.js"></script>
+  <script type="text/javascript" src="./resources/js/math.js"></script>
+  <script type="text/javascript" src="./resources/js/stack.js"></script>
 </head>
 
 <body>
   <div class="container">
     <div class="calculator">
       <div class="calculator__display">
-        <div class="calculator__statusbar">Glass RPN Calculator</div>
+        <div class="calculator__statusbar"></div>
         <div class="calculator__infobar">
           <div><span>U</span>:<span id="infoUndo">0</span></div>
           <div><span>R</span>:<span id="infoRedo">0</span></div>
@@ -59,9 +65,9 @@
           <button data-action="Pow"  class="key--level-0">y<sup>x</sup></button>
           <button data-action="Inv"  class="key--level-0">1/x</button>
 
-          <button data-action="Reset" class="key--level-1 key--green">RESET</button>
-          <button data-action="Undo"  class="key--level-1 key--green">UNDO</button>
-          <button data-action="Redo"  class="key--level-1 key--green">REDO</button>
+          <button data-action="Reset" class="key--level-1 key--green">Reset</button>
+          <button data-action="Undo"  class="key--level-1 key--green">Undo</button>
+          <button data-action="Redo"  class="key--level-1 key--green">Redo</button>
           <button data-action="Xroot" class="key--level-1 key--green"><sup>x</sup>&#x221A;y</button>
           <button data-action="Log10" class="key--level-1 key--green">LOG</button>
           <button data-action="Log"   class="key--level-1 key--green">LN</button>
@@ -108,8 +114,7 @@
       </div>
     </div>
   </div>
-
-  <script type="text/javascript" src="./resources/js/calc.js"></script>
+  <script type="text/javascript" src="./resources/js/main.js"></script>
 </body>
 
 </html>
