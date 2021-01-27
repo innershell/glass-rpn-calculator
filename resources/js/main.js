@@ -18,11 +18,11 @@ const display = document.querySelector('.calculator__stack');
   toggleShiftButtons(true, false, false);  // Initialize the primary keys;
 
   // Calculator automatically hides after a few seconds.
-  setTimeout(function(){
+  setTimeout(function () {
     statusbar.textContent = '';
     statusbar.style.display = 'none';
     infobar.style.display = 'grid';
-  },2000);
+  }, 2000);
 
   // Create events listeners.
   statusbar.addEventListener('click', () => setBackgroundImage(true)); // Change background image.
@@ -39,6 +39,15 @@ const display = document.querySelector('.calculator__stack');
   });
 
   updateStack();
+
+  // Service Worker registration with this app.
+  window.onload = () => {
+    'use strict';
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('pwa.js');
+    }
+  }
 }
 
 
