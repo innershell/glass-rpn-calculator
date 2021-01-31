@@ -122,7 +122,6 @@ body {
   background-image: linear-gradient(236deg, #74ebd5, #acb6e5);
   background-size: cover;
   background-position: center;
-  -webkit-transition: background-image 1s ease-in-out;
   transition: background-image 1s ease-in-out;
   display: flex;
   width: 100vw;
@@ -132,7 +131,6 @@ body {
 
 .container {
   border-radius: 15px;
-  min-width: 380px;
   margin-bottom: 20px;
   -webkit-backdrop-filter: blur(10px) brightness(50%) contrast(90%);
   backdrop-filter: blur(10px) brightness(50%) contrast(90%);

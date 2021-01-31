@@ -31,7 +31,8 @@
   }, {
     "src": "resources/images/icons/196.png",
     "sizes": "196x196",
-    "type": "image/png"
+    "type": "image/png",
+    "purpose": "any maskable"
   }, {
     "src": "resources/images/icons/256.png",
     "sizes": "256x256",

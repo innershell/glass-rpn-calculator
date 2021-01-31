@@ -49,20 +49,3 @@ const display = document.querySelector('.calculator__stack');
     }
   }
 }
-
-
-/**
- * Changes the background image based on user preference.
- * @param {boolean} change - Whether to just set the background or change it.
- */
-function setBackgroundImage(change = false) {
-  let image = localStorage.getItem('BG_IMAGE');
-
-  image === null ? image = 1 : null;  // No default image saved.
-  isNaN(image) ? image = 1 : null;    // No default image saved.
-  change ? image++ : null;            // User asked to change image.
-  image > 11 ? image = 1 : null;      // Rotate image back to start.
-
-  document.body.style.backgroundImage = `url('./resources/images/themes/bg${image}.jpg')`;
-  localStorage.setItem('BG_IMAGE', `${image}`);
-}
