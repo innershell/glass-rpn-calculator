@@ -9,35 +9,35 @@
   "theme_color": "#4667A2",
   "description": "An RPN calculator.",
   "icons": [{
-    "src": "resources/images/icons/icon16.png",
+    "src": "resources/images/icons/16.png",
     "sizes": "16x16",
     "type": "image/png"
   },{
-    "src": "resources/images/icons/icon120.png",
+    "src": "resources/images/icons/120.png",
     "sizes": "120x120",
     "type": "image/png"
   }, {
-    "src": "resources/images/icons/icon128.png",
+    "src": "resources/images/icons/128.png",
     "sizes": "128x128",
     "type": "image/png"
   }, {
-    "src": "resources/images/icons/icon144.png",
+    "src": "resources/images/icons/144.png",
     "sizes": "144x144",
     "type": "image/png"
   }, {
-    "src": "resources/images/icons/icon152.png",
+    "src": "resources/images/icons/152.png",
     "sizes": "152x152",
     "type": "image/png"
   }, {
-    "src": "resources/images/icons/icon192.png",
-    "sizes": "192x192",
+    "src": "resources/images/icons/196.png",
+    "sizes": "196x196",
     "type": "image/png"
   }, {
-    "src": "resources/images/icons/icon256.png",
+    "src": "resources/images/icons/256.png",
     "sizes": "256x256",
     "type": "image/png"
   }, {
-    "src": "resources/images/icons/icon512.png",
+    "src": "resources/images/icons/512.png",
     "sizes": "512x512",
     "type": "image/png"
   }],

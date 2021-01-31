@@ -45,7 +45,7 @@ const display = document.querySelector('.calculator__stack');
     'use strict';
 
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('pwa.js');
+      navigator.serviceWorker.register('service-worker.js');
     }
   }
 }
