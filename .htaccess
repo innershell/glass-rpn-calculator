@@ -1,0 +1,7 @@
+DirectoryIndex index.html
+Options +Indexes
+
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteCond %{HTTP_HOST} ^calc\.innershell\.ca$
+RewriteRule ^(.*)$ https://calc.innershell.ca [R=301,L]
