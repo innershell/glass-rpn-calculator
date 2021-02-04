@@ -2,7 +2,7 @@
   "name": "Glass RPN Calculator",
   "short_name": "Glass RPN",
   "lang": "en-US",
-  "start_url": "/calc/index.html",
+  "start_url": "index.html",
   "display": "standalone",
   "background_color": "#4667A2",
   "theme_color": "#4667A2",
@@ -43,6 +43,6 @@
   }],
   "related_applications": [{
     "platform": "play",
-    "url": "https://innershell.ca"
+    "url": "https://calc.innershell.ca"
   }]
 }
