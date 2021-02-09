@@ -1,4 +1,3 @@
-/* MEMORY FUNCTIONS ---------------------------------------------------------*/
 /**
  * Check if the value is a memory register.
  * @param {*} value - The value to test.
@@ -21,6 +20,9 @@ function keyMemory(event) {
   }
 }
 
+/**
+ * Store a value to the memory.
+ */
 function keyStore() {
   if (prepareStack() >= 2) {
     if (/M[1-6]/.test(stack[0])) { // Check if the first argument is a memory.
@@ -35,8 +37,12 @@ function keyStore() {
   }
 }
 
+/**
+ * Erases a specific memory register.
+ * @param {*} event - The event that triggered this function.
+ */
 function keyClearMemory(event) {
-  const register = event.target.value;
+  const register = event.target.value; // Extract the specific memory register.
   memory[register] = null;
   keyRightShift();
 }

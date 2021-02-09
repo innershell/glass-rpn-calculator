@@ -17,7 +17,7 @@ function keyRightShift() {
 
 
 /**
- * Show the leve 2 function buttons.
+ * Show the level 2 function buttons.
  */
 function keyLeftShift() {
   if (rightShift) rightShift = false;
@@ -72,7 +72,12 @@ function keyEnter() {
  * Backspaces an argument or drops the first item from the stack.
  */
 function keyDrop() {
-  if (argument.textContent) {
+  // Memory keys and EEX are have more than 1 character. Delete all chars.
+  if (argument.textContent.match(/M[1-6]|1E/) != null) {
+    argument.textContent = "";
+  }
+  // Backspace 1 char at a time.
+  else if (argument.textContent) {
     argument.textContent = argument.textContent.substring(0,argument.textContent.length-1);
   } else {
     popStack();
