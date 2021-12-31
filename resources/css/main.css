@@ -9,6 +9,8 @@
 
 html {
   box-sizing: border-box;
+  position: fixed;
+  overflow-y: hidden;
 }
 
 *,
@@ -19,7 +21,16 @@ html {
 
 body {
   margin: 0;
-  touch-action: manipulation;
+  /* touch-action: manipulation; Disable double-tap zoom */
+  user-select: none;          /* Chrome and Opera */
+  -webkit-user-select: none;  /* Safari */
+  -moz-user-select: none;     /* Firefox */
+  -ms-user-select: none;      /* Edge */
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
 }
 
 /* Responsive Images */
