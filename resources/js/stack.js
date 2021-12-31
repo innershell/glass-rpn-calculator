@@ -122,7 +122,7 @@ function keyCancel() {
  */
 function rollStack(e) {
   const stackLevel = e.target.getAttribute('value');
-  const arg_01 = stack.splice(stackLevel, 1);
+  const arg_01 = stack.splice(stackLevel, 1)[0].replace(/,/g, ''); // Remove thousands separator (commas)
   if (arg_01.length > 0) pushStack(arg_01);
 }
 
