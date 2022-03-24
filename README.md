@@ -6,7 +6,7 @@ This calculator is based on:
 
 Live Demo
 =========
-http://innershell.ca/calc/
+https://calc.innershell.ca
 
 Features
 ========
