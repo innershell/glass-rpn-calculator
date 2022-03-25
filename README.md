@@ -8,6 +8,8 @@ Live Demo
 =========
 https://calc.innershell.ca
 
+![Glass RPN Calculator](/resources/images/glass-rpn-calculator-screen.png)
+
 Features
 ========
 I created this calculator because:
