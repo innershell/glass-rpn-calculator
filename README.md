@@ -21,7 +21,7 @@ I created this calculator because:
 
 Installation
 ============
-This app was written as a Progressive Web Application (PWA). So no need to install find/install the app from the app stores.
+This app was written as a Progressive Web Application (PWA). So no need to find/install the app from the app stores.
 
 Android
 -------
@@ -45,10 +45,12 @@ Technical Details
 
 Bugs and Feature Requests
 =========================
+COMING SOON
 
 License
 =======
+COMING SOON
 
 Donations
 =========
-
+COMING SOON
