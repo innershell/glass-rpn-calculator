@@ -9,7 +9,7 @@
 
 html {
   box-sizing: border-box;
-  /* position: fixed; */
+  position: fixed;
 }
 
 *,
