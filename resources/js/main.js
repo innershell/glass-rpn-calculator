@@ -26,7 +26,7 @@ const display = document.querySelector('.calculator__stack');
 
   // Create events listeners.
   statusbar.addEventListener('click', () => setBackgroundImage(true)); // Change background image.
-  infobar.addEventListener('click', () => setBackgroundImage(true)); // Change background image.
+  infobar.addEventListener('click', () => setBackgroundImage(true));   // Change background image.
   document.addEventListener('keydown', e => keyboardAction(e));        // Keyboard inputs.
   keys.addEventListener('click', e => touchAction(e));                 // Mouse clicks.
   display.addEventListener('click', e => rollStack(e));                // Display click.
