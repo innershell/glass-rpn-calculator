@@ -123,7 +123,10 @@ function keyCancel() {
 function rollStack(e) {
   const stackLevel = e.target.getAttribute('value');
   const arg_01 = stack.splice(stackLevel, 1)[0].replace(/,/g, ''); // Remove thousands separator (commas)
-  if (arg_01.length > 0) pushStack(arg_01);
+  if (arg_01.length > 0) {
+    pushStack(arg_01);
+    navigator.clipboard.writeText(arg_01); // Copy to the clipboard.
+  }
 }
 
 
@@ -192,7 +195,40 @@ function prepareStack() {
       if (argArray[i].match(/E/g) != null) {
         const arg_01 = argArray[i].split("E")[0];
         const arg_02 = argArray[i].split("E")[1];
-        pushStack(arg_01 + "0".repeat(arg_02));
+        const decimalPos = argArray[i].indexOf(".");
+
+        // Operand is an integer, so just add zeros.
+        if (decimalPos < 0) {
+          pushStack(arg_01 + "0".repeat(arg_02));
+        }
+
+        // Operand is a float, need special handling.
+        else {
+          const fractionalPart = arg_01.length - 1 - decimalPos;
+
+          // The fractional part is shorter than what the EEX operation needs.
+          // Remove the decimal point and append the appropriate number of zeros.
+          if (arg_02 > fractionalPart) {
+            pushStack(arg_01.replace(".", "") + "0".repeat(arg_02 - decimalPos));
+          } 
+          
+          // The fractional part matches what the EEX operation needs.
+          // Just remove the decimal point and we are done.
+          else if (arg_02 == fractionalPart) {
+            pushStack(arg_01.replace(".", ""));
+          }
+        
+          // The fractional part is longer than the EEX operation needs.
+          // Reposition the decimal point only. Not adding any zeros today.
+          else if (arg_02 < fractionalPart) {
+            let newNum = arg_01.replace(".", ""); // Remove the decimal.
+            pushStack(newNum.slice(0, decimalPos + 1) + "." + newNum.slice(decimalPos + 1)); // Put decimal back.
+          } 
+          else {
+            statusbar.textContent = 'Syntax Error: EEX';
+          }
+        }
+
       } 
       
       // Process everything else.
