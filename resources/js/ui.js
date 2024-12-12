@@ -2,10 +2,13 @@
  * Workaround to PWA click lag when using the keypad.
  */
 if ('addEventListener' in document) {
-	document.addEventListener('DOMContentLoaded', function() {
-		FastClick.attach(document.body);
-	}, false);
+  document.addEventListener('DOMContentLoaded', function() {
+  	FastClick.attach(document.body);
+  }, false);
 }
+document.addEventListener('touchmove', function(e) {
+  e.preventDefault();
+}, { passive: false });
 
 /**
  * Hide all elements of a specific class.
